@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:security="http://www.springframework.org/schema/security"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation=
+			"http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+			http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd 
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+			
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="password" value="@$kAr0UnD 1s M3ln, A1! m!N3" />
+		<property name="url" value="jdbc:mysql://localhost:3306/askaround" />
+		<property name="username" value="askaround" />
+	</bean>
+	
+	<!--  Multipart Stuff  -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	    <!-- one of the properties available; the maximum file size in bytes -->
+	    <property name="maxUploadSize" value="500000"/>
+	</bean>
+	
+	<bean id="domainDAOBuilder" class="net.draconia.askaround.service.DomainDAOBuilder" />
+	<bean id="appUserService" class="net.draconia.askaround.service.AppUserServiceImpl">
+		<constructor-arg index="0" ref="dataSource" />
+		<constructor-arg index="1" ref="domainDAOBuilder" />
+	</bean>
+	<bean id="assetService" class="net.draconia.askaround.service.AssetServiceImpl">
+		<constructor-arg index="0" ref="dataSource" />
+		<constructor-arg index="1" ref="domainDAOBuilder" />
+	</bean>
+	<bean id="menuService" class="net.draconia.askaround.service.MenuServiceImpl" name="menuService">
+		<constructor-arg index="0" ref="dataSource" />
+	</bean>
+</beans>
